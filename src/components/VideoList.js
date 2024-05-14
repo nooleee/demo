@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { WiDaySunny, WiLightning } from "react-icons/wi";
 
-const BookList = () => {
+const VideoList = () => {
     // useState는 화면 랜더링에 반영됨
-    const [bookList, setBookList] = useState([]);
+    const [videoList, setVideoList] = useState([]);
     const [page, setPage] = useState(1);
-    const [search, setSearch] = useState('해리포터');
+    const [search, setSearch] = useState('달고나 커피');
 
     // useRef 는 화면 랜더링에 반영되지 않는 참조값
     const pageCount = useRef(1);
@@ -17,7 +17,7 @@ const BookList = () => {
     const buttonScheme = useColorModeValue('blackAlpha', 'whiteAlpha');
 
 
-    const fetchBooks = async () => {
+    const fetchVideos = async () => {
         const response = await fetch(
             `https://dapi.kakao.com/v2/search/vclip?query=${search}&page=${page}`,
             {
@@ -51,14 +51,14 @@ const BookList = () => {
 
 
     useEffect(() => {
-        fetchBooks();
+        fetchVideos();
     }, [page, search]);
 
     return (
         <>
             <Box>
                 <Heading color={color}>
-                    <Icon as={MdOutlineOndemandVideo} boxSize="1.5em" />도서 검색 목록
+                    <Icon as={MdOutlineOndemandVideo} boxSize="1.5em" />동영상 검색 목록
                 </Heading>
 
                 {
@@ -78,12 +78,12 @@ const BookList = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {bookList.map((book, index) => (
+                            {videoList.map((video, index) => (
                                 <>
                                     <Tr>
                                         <Td>{(page - 1) * 10 + index + 1}</Td>
-                                        <Td><a href={book.url}>{book.title}</a></Td>
-                                        <Td>{book.author}</Td>
+                                        <Td><a href={video.url}>{video.title}</a></Td>
+                                        <Td>{video.author}</Td>
                                     </Tr>
                                 </>
                             ))}
@@ -107,4 +107,4 @@ const BookList = () => {
     );
 };
 
-export default BookList;
+export default VideoList;
