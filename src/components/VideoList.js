@@ -1,7 +1,8 @@
-import { Box, Heading, Input, Table, TableContainer, Tbody, Tfoot, Th, Thead, Tr, Td, Icon, HStack, Button, Stack, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, Input, Table, TableContainer, Tbody, Tfoot, Th, Thead, Tr, Td, Icon, HStack, Button, Stack, IconButton, useColorMode, useColorModeValue, Text, SimpleGrid, Flex, Center } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineOndemandVideo } from "react-icons/md";
-import { WiDaySunny, WiLightning } from "react-icons/wi";
+import { Image } from '@chakra-ui/react';
+import { Card, CardBody, CardFooter } from '@chakra-ui/react';
 
 const VideoList = () => {
     // useState는 화면 랜더링에 반영됨
@@ -12,7 +13,6 @@ const VideoList = () => {
     // useRef 는 화면 랜더링에 반영되지 않는 참조값
     const pageCount = useRef(1);
 
-    const { colorMode, toggleColorMode } = useColorMode();
     const color = useColorModeValue('Purple 500', 'Purple 200');
     const buttonScheme = useColorModeValue('blackAlpha', 'whiteAlpha');
 
@@ -58,22 +58,36 @@ const VideoList = () => {
         <>
             <Box>
                 <Heading color={color}>
-                    <Icon as={MdOutlineOndemandVideo} boxSize="1.5em" />동영상 검색 목록
                 </Heading>
-
-                {
-                    colorMode === "light" ?
-                        <IconButton icon={<WiLightning />} onClick={toggleColorMode} size={"lg"}></IconButton> :
-                        <IconButton icon={<WiDaySunny />} onClick={toggleColorMode} size={"lg"}></IconButton>
-                }
-
-                <Input type="text" placeholder='검색어 입력' onChange={changeSearch} size="lg" variant={"filled"} />
-                <TableContainer>
+                <Input type="text" placeholder='검색어 입력' onChange={changeSearch} size="lg" variant={"filled"} width='240px' mb={4}/>
+                <SimpleGrid spacing="20px" columns={[1, null, 5]} gap={6}>
+                        {videoList.map((video, index) => (
+                    <Card maxH={'350px'}>
+                            <CardBody>
+                            <Flex direction="column" alignItems="center">
+                                <a href={video.url}><Image src={video.thumbnail} borderRadius='lg'  height='150px' width='300px' /></a>
+                                <Stack mt='6' spacing='3'>
+                                    <Text color='grey.600' fontSize='md' noOfLines={2} maxW="100%">
+                                        <a href={video.url}>{video.title}</a>
+                                    </Text>
+                                </Stack>
+                                </Flex>
+                            </CardBody> 
+                            <CardFooter>/
+                            <Text color='grey.600' fontSize='1xl'>
+                                        {video.author}
+                                    </Text>
+                            </CardFooter>
+                    </Card>
+                        ))}
+                </SimpleGrid>
+                {/* <TableContainer>
                     <Table variant={"striped"} colorScheme="purple">
                         <Thead>
                             <Tr>
                                 <Th>No</Th>
                                 <Th>Title</Th>
+                                <Th>PreView</Th>
                                 <Th>Authoe</Th>
                             </Tr>
                         </Thead>
@@ -83,6 +97,9 @@ const VideoList = () => {
                                     <Tr>
                                         <Td>{(page - 1) * 10 + index + 1}</Td>
                                         <Td><a href={video.url}>{video.title}</a></Td>
+                                        <Td><Box boxSize='150px'>
+                                            <Image src={video.thumbnail} />
+                                        </Box></Td>
                                         <Td>{video.author}</Td>
                                     </Tr>
                                 </>
@@ -90,8 +107,8 @@ const VideoList = () => {
                         </Tbody>
                         <Tfoot></Tfoot>
                     </Table>
-                </TableContainer>
-                <HStack>
+                </TableContainer> */}
+                <HStack mt={4} justifyContent="center">
                     {Array.from({ length: pageCount.current }, (_, index) => (
                         <>
                             <Button colorScheme={

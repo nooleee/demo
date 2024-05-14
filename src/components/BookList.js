@@ -1,7 +1,7 @@
-import { Box, Heading, Input, Table, TableContainer, Tbody, Tfoot, Th, Thead, Tr, Td, Icon, HStack, Button, Stack, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, Input, Table, TableContainer, Tbody, Tfoot, Th, Thead, Tr, Td, Icon, HStack, Button, IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
-import { MdOutlineOndemandVideo } from "react-icons/md";
-import { WiDaySunny, WiLightning } from "react-icons/wi";
+import { BsBook  } from "react-icons/bs";
+import BookSearch from './BookDetail';
 
 const BookList = () => {
     // useState는 화면 랜더링에 반영됨
@@ -12,14 +12,13 @@ const BookList = () => {
     // useRef 는 화면 랜더링에 반영되지 않는 참조값
     const pageCount = useRef(1);
 
-    const { colorMode, toggleColorMode } = useColorMode();
     const color = useColorModeValue('Purple 500', 'Purple 200');
     const buttonScheme = useColorModeValue('blackAlpha', 'whiteAlpha');
 
 
     const fetchBooks = async () => {
         const response = await fetch(
-            `https://dapi.kakao.com/v2/search/vclip?query=${search}&page=${page}`,
+            `https://dapi.kakao.com/v3/search/book?query=${search}&page=${page}`,
             {
                 method: "GET",
                 headers: {
@@ -38,7 +37,7 @@ const BookList = () => {
         pageCount.current = pageCount.current > 15 ? 15 : pageCount.current;
         console.log(pageCount.current);
 
-        setVideoList(data.documents);
+        setBookList(data.documents);
     };
 
 
@@ -52,29 +51,24 @@ const BookList = () => {
 
     useEffect(() => {
         fetchBooks();
+        <BookSearch />
     }, [page, search]);
 
     return (
         <>
             <Box>
                 <Heading color={color}>
-                    <Icon as={MdOutlineOndemandVideo} boxSize="1.5em" />도서 검색 목록
                 </Heading>
 
-                {
-                    colorMode === "light" ?
-                        <IconButton icon={<WiLightning />} onClick={toggleColorMode} size={"lg"}></IconButton> :
-                        <IconButton icon={<WiDaySunny />} onClick={toggleColorMode} size={"lg"}></IconButton>
-                }
-
-                <Input type="text" placeholder='검색어 입력' onChange={changeSearch} size="lg" variant={"filled"} />
+                <Input type="text" placeholder='검색어 입력' onChange={changeSearch} size="lg" variant={"filled"} width='240px' mb={5}/>
                 <TableContainer>
                     <Table variant={"striped"} colorScheme="purple">
                         <Thead>
                             <Tr>
                                 <Th>No</Th>
                                 <Th>Title</Th>
-                                <Th>Authoe</Th>
+                                <Th>Author</Th>
+                                <Th>Publisher</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -82,8 +76,9 @@ const BookList = () => {
                                 <>
                                     <Tr>
                                         <Td>{(page - 1) * 10 + index + 1}</Td>
-                                        <Td><a href={book.url}>{book.title}</a></Td>
-                                        <Td>{book.author}</Td>
+                                        <Td><a href={"/book/search/isbn"}>{book.title}</a></Td>
+                                        <Td>{book.authors}</Td>
+                                        <Td>{book.publisher}</Td>
                                     </Tr>
                                 </>
                             ))}
@@ -91,7 +86,7 @@ const BookList = () => {
                         <Tfoot></Tfoot>
                     </Table>
                 </TableContainer>
-                <HStack>
+                <HStack justifyContent="center" mt={4}>
                     {Array.from({ length: pageCount.current }, (_, index) => (
                         <>
                             <Button colorScheme={

@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
     return (
         <>
-            <p>footer</p>
+            <p>서울시 서초구</p>
         </>
     );
 };
