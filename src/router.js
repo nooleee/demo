@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./routes/Root";
 import VideoList from "./components/VideoList";
 import BookList from "./components/BookList";
-import BookSearch from "./components/BookDetail";
 import BookDetail from "./components/BookDetail";
 
 
@@ -42,56 +41,44 @@ const router = createBrowserRouter([
     {
         
         path: "/video",
-        element: <><Root /></>, 
+        element: <Root />, 
         children: [ 
             {
-                path: "/video",
-                element: <>
-                    <VideoList />
-                </>
-            },
-            {
                 path: "/video/list",
-                element: <>
+                element:
                     <VideoList />
-                </>
+                
             },
             {
                 path: "/video/search",
-                element: <>
+                element: 
                     <VideoList />
-                </>
+                
             }
         ]
     },
     {
         
         path: "/book",
-        element: <><Root /></>,
+        element: <Root />,
         children: [
             {
-                path: "/book",
-                element: <>
-                    <BookList />
-                </>
-            },
-            {
                 path: "/book/list",
-                element: <>
+                element: 
                     <BookList />
-                </>
+                
             },
             {
                 path: "/book/search",
-                element: < >
+                element: 
                     <BookList />
-                </>
+                
             },
             {
                 path: "/book/search/:isbn",
-                element: < >
+                element: 
                     <BookDetail />
-                </>
+                
             }
         ]
     }

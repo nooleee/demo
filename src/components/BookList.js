@@ -76,7 +76,7 @@ const BookList = () => {
                                 <>
                                     <Tr>
                                         <Td>{(page - 1) * 10 + index + 1}</Td>
-                                        <Td><a href={"/book/search/isbn"}>{book.title}</a></Td>
+                                        <Td><a href={"/demo/book/search/" + book.isbn}>{book.title}</a></Td>
                                         <Td>{book.authors}</Td>
                                         <Td>{book.publisher}</Td>
                                     </Tr>

@@ -67,7 +67,7 @@ const VideoList = () => {
                             <Flex direction="column" alignItems="center">
                                 <a href={video.url}><Image src={video.thumbnail} borderRadius='lg'  height='150px' width='300px' /></a>
                                 <Stack mt='6' spacing='3'>
-                                    <Text color='grey.600' fontSize='md' noOfLines={2} maxW="100%">
+                                    <Text color='grey.600' fontSize='md' noOfLines={2} maxW="1000%">
                                         <a href={video.url}>{video.title}</a>
                                     </Text>
                                 </Stack>
